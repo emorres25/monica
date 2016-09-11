@@ -69,10 +69,10 @@ class monica(generic.View):
     def post(self, request, *args, **kwargs):
         incoming_message = json.loads(self.request.body.decode('utf-8'))
         sender_id = incoming_message['entry'][0]['messaging'][0]['sender']['id']
-        #pprint(incoming_message)
+        pprint(incoming_message)
 
         our_entry = incoming_message['entry'][0]['messaging'][0]
-        print our_entry
+        #print our_entry
         '''
         if 'message' in our_entry:
             try:
