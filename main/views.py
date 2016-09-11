@@ -27,7 +27,7 @@ def get_meaning(fbid, recieved_message):
     pprint(status.json())
 
 def post_msg(fbid, msg):
-	post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=%s'% access_token
+    post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=%s'% access_token
     response_msg = json.dumps({"recipient":{"id":fbid}, "message":{"text":msg}})
     status = requests.post(post_message_url, headers={"Content-Type": "application/json"},data=response_msg)
     pprint(status.json())
@@ -44,7 +44,7 @@ class monica(generic.View):
     def dispatch(self, request, *args, **kwargs):
         return generic.View.dispatch(self, request, *args, **kwargs)
  
- 	
+    
     def post(self, request, *args, **kwargs):
         incoming_message = json.loads(self.request.body.decode('utf-8'))
         for entry in incoming_message['entry']:
@@ -65,8 +65,8 @@ class monica(generic.View):
         sender_id = incoming_message['entry'][0]['messaging'][0]['sender']['id']
         message = incoming_message['entry'][0]['messaging'][0]['message']['text']
         try:
-        	post_msg(sender_id, message)
+            post_msg(sender_id, message)
         except Exception as e:
-        	print e
+            print e
         return HttpResponse()
     '''
