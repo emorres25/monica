@@ -34,7 +34,7 @@ def post_msg(fbid, msg):
 
 def payload_dict(fbid, payload):
     if(payload=="get_started"):
-        post_msg(fbid, "Get started!")
+        post_msg(fbid, "Hi there! Just stick with us for a while, we will be delivering soon!")
     else:
         post_msg(fbid, "The payload isn't yet assigned!")
 
@@ -71,18 +71,12 @@ class monica(generic.View):
         sender_id = incoming_message['entry'][0]['messaging'][0]['sender']['id']
         pprint(incoming_message)
  
-        try:
-            try:
-                payload = incoming_message['entry'][0]['messaging'][0]['postback']['payload']
-                payload_dict(sender_id, payload)
-            except Exception as e:
-                print e
-        except:
+        if(incoming_message['entry'][0]['messaging'][0]['postback']['payload']):
+            payload = incoming_message['entry'][0]['messaging'][0]['postback']['payload']
+            payload_dict(sender_id, payload)
+        elif(incoming_message['entry'][0]['messaging'][0]['message']['text']):
             message = incoming_message['entry'][0]['messaging'][0]['message']['text']
-            try:
-                post_msg(sender_id, message)
-            except Exception as e:
-                print e
-
+            post_msg(sender_id, message)
+            
         return HttpResponse()
     
