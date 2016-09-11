@@ -62,11 +62,15 @@ class monica(generic.View):
     
     def post(self, request, *args, **kwargs):
         incoming_message = json.loads(self.request.body.decode('utf-8'))
-        sender_id = incoming_message['entry'][0]['messaging'][0]['sender']['id']
-        message = incoming_message['entry'][0]['messaging'][0]['message']['text']
         try:
-            post_msg(sender_id, message)
-        except Exception as e:
-            print e
+            sender_id = incoming_message['entry'][0]['messaging'][0]['sender']['id']
+            message = incoming_message['entry'][0]['messaging'][0]['message']['text']
+            try:
+                post_msg(sender_id, message)
+            except Exception as e:
+                print e
+        except:
+            print "Not found!"
+
         return HttpResponse()
     
