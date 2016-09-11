@@ -32,6 +32,12 @@ def post_msg(fbid, msg):
     status = requests.post(post_message_url, headers={"Content-Type": "application/json"},data=response_msg)
     pprint(status.json())
 
+def payload_dict(fbid, payload):
+    if(payload=="get_started"):
+        post_msg(fbid, "Get started!")
+    else:
+        post_msg(fbid, "The payload isn't yet assigned!")
+
 
 class monica(generic.View):
     def get(self, request, *args, **kwargs):
@@ -62,16 +68,21 @@ class monica(generic.View):
     
     def post(self, request, *args, **kwargs):
         incoming_message = json.loads(self.request.body.decode('utf-8'))
+        sender_id = incoming_message['entry'][0]['messaging'][0]['sender']['id']
+        pprint(incoming_message)
+ 
         try:
-            pprint(incoming_message)
-            sender_id = incoming_message['entry'][0]['messaging'][0]['sender']['id']
+            try:
+                payload = incoming_message['entry'][0]['messaging'][0]['postback']['payload']
+                payload_dict(sender_id, payload)
+            except Exception as e:
+                print e
+        except:
             message = incoming_message['entry'][0]['messaging'][0]['message']['text']
             try:
                 post_msg(sender_id, message)
             except Exception as e:
                 print e
-        except:
-            print "Not found!"
 
         return HttpResponse()
     
