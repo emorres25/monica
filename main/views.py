@@ -74,7 +74,7 @@ class monica(generic.View):
         if(incoming_message['entry'][0]['messaging'][0]['postback']['payload']):
             payload = incoming_message['entry'][0]['messaging'][0]['postback']['payload']
             payload_dict(sender_id, payload)
-        elif(incoming_message['entry'][0]['messaging'][0]['message']['text']):
+        else:
             message = incoming_message['entry'][0]['messaging'][0]['message']['text']
             post_msg(sender_id, message)
             
