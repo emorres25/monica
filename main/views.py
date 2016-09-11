@@ -9,10 +9,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 
 # Create your views here.
-access_token = 'EAAWkem72GcIBAOMF4AUYuZBkakT3arZBDkKL5RhTqzmjV1CRoGOkCLzEPmovAUh7UEdzdcSMsOs1uFcVkkL5XMYbkGI0YwFjWgVksgZBJA9hBOWIcKCTkLtJgR1NlI7SZCnuRfJgAFxJM2lw4GZBlVhAGnBYhbnp1LJ2uVZB6XJwZDZD'
+access_token = 'EAACZBvaFpA18BALGxtZAD1kaZAGI1y7FyFfsnv7KL6y6g2YY2xZBLQXmRZCYVBMiqIZCis3BOBe6wo6odDu6UJySDbgIW4wI9ZCn7Up22BRvMn1bz1gcSsLT9ySPPIFiCkQxdRWatsPD7ZCwl2MViyZBTgflGbzz3ATdpj8dRifhYGAZDZD'
 verify_token = '8510865767'
-yo_token = 'a9e75c9f-a085-4c5f-be02-4faa915eac29'
-yo_username = 'EMORRES25'
+pb_access_token = 'o.pcRGh00O0fKNVFVeOAQ4qo5CRt6qyYJh'
 #url = 'http://api.wordnik.com:80/v4/word.json/tycoon/definitions?limit=200&includeRelated=true&useCanonical=false&includeTags=false&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5'
 def get_meaning(fbid, recieved_message):
     url = 'http://api.wordnik.com:80/v4/word.json/' + recieved_message.lower() + '/definitions?limit=200&includeRelated=true&useCanonical=false&includeTags=false&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5'
@@ -27,9 +26,6 @@ def get_meaning(fbid, recieved_message):
     status = requests.post(post_message_url, headers={"Content-Type": "application/json"},data=response_msg)
     pprint(status.json())
 
-def send_yo():
-    requests.post("http://api.justyo.co/yo/", data={'api_token': yo_token, 'username': yo_username, 'text': "dictbot was recently used."})
-
 
 class monica(generic.View):
     def get(self, request, *args, **kwargs):
@@ -42,7 +38,7 @@ class monica(generic.View):
     def dispatch(self, request, *args, **kwargs):
         return generic.View.dispatch(self, request, *args, **kwargs)
  
- 
+ 	'''
     def post(self, request, *args, **kwargs):
         incoming_message = json.loads(self.request.body.decode('utf-8'))
         for entry in incoming_message['entry']:
@@ -55,4 +51,15 @@ class monica(generic.View):
                         print e
                         get_meaning(message['sender']['id'], 'Please send a valid text.')    
                         #send_yo()
+        return HttpResponse()
+    '''
+
+    def post(self, request, *args, **kwargs):
+        incoming_message = json.loads(self.request.body.decode('utf-8'))
+        sender_id = incoming_message['entry'][0]['messaging'][0]['sender']['id']
+        message = incoming_message['entry'][0]['messaging'][0]['message']['text']
+        try:
+        	post_msg(sender_id, message)
+        except Exception as e:
+        	print e
         return HttpResponse()
