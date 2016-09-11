@@ -26,7 +26,13 @@ def get_meaning(fbid, recieved_message):
     status = requests.post(post_message_url, headers={"Content-Type": "application/json"},data=response_msg)
     pprint(status.json())
 
+def post_msg(fbid, msg):
+	post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=%s'% access_token
+    response_msg = json.dumps({"recipient":{"id":fbid}, "message":{"text":msg}})
+    status = requests.post(post_message_url, headers={"Content-Type": "application/json"},data=response_msg)
+    pprint(status.json())
 
+    
 class monica(generic.View):
     def get(self, request, *args, **kwargs):
         if self.request.GET['hub.verify_token'] == verify_token:
