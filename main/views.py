@@ -30,7 +30,7 @@ def post_msg(fbid, msg):
     post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=%s'% access_token
     response_msg = json.dumps({"recipient":{"id":fbid}, "message":{"text":msg}})
     status = requests.post(post_message_url, headers={"Content-Type": "application/json"},data=response_msg)
-    pprint(status.json())
+    #pprint(status.json())
 
 def payload_dict(fbid, payload):
     if(payload=="get_started"):
@@ -38,7 +38,7 @@ def payload_dict(fbid, payload):
         url ='https://graph.facebook.com/v2.6/me/messages?access_token=%s' % access_token
         payload = json.dumps({"recipient":{"id":fbid},"message":{"attachment":{"type":"template","payload":{"template_type":"button","text":"Select from these available options:","buttons":[{"type":"postback","title":"Current Location","payload":"by_location"},{"type":"postback","title":"Search a location","payload":"search_location"},{"type":"postback","title":"Search a restaurant","payload":"search_restaurant"}]}}}})
         r = requests.post(url, headers={"Content-Type: application/json"}, data=payload)
-        pprint(r.status)
+        pprint(r.json())
     else:
         post_msg(fbid, "The payload isn't yet assigned!")
 
