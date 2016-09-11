@@ -74,14 +74,11 @@ class monica(generic.View):
         try:
             message = incoming_message['entry'][0]['messaging'][0]['message']['text']
             post_msg(sender_id, message)
-            break
         except:
             try:
                 payload = incoming_message['entry'][0]['messaging'][0]['postback']['payload']
                 payload_dict(sender_id, payload)
-                break
             except:
                 post_msg(sender_id, "Dunno! :'(")
-                break
         return HttpResponse()
     
