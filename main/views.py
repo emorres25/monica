@@ -69,26 +69,28 @@ class monica(generic.View):
     def post(self, request, *args, **kwargs):
         incoming_message = json.loads(self.request.body.decode('utf-8'))
         sender_id = incoming_message['entry'][0]['messaging'][0]['sender']['id']
-        pprint(incoming_message)
+        #pprint(incoming_message)
 
         our_entry = incoming_message['entry'][0]['messaging'][0]
-        #print our_entry
-        '''
+        print our_entry
+        
         if 'message' in our_entry:
+            message = incoming_message['entry'][0]['messaging'][0]['message']['text']
             try:
-                message = incoming_message['entry'][0]['messaging'][0]['message']['text']
                 post_msg(sender_id, message)
             except Exception as e:
                 print e
         elif 'postback' in our_entry:
+            payload = incoming_message['entry'][0]['messaging'][0]['postback']['payload']
             try:
-                payload = incoming_message['entry'][0]['messaging'][0]['postback']['payload']
                 payload_dict(sender_id, payload)
             except Exception as e:
                 print e
+        elif 'read' in our_entry:
+            pass
         else:
             post_msg(sender_id, "Dunno! :'(")
-        '''
+        
 
         
         return HttpResponse()
