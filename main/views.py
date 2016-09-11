@@ -86,10 +86,8 @@ class monica(generic.View):
                 payload_dict(sender_id, payload)
             except Exception as e:
                 print e
-        elif 'read' in our_entry:
-            pass
         else:
-            post_msg(sender_id, "Dunno! :'(")
+            pass
         
 
         
