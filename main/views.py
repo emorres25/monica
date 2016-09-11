@@ -70,13 +70,14 @@ class monica(generic.View):
         incoming_message = json.loads(self.request.body.decode('utf-8'))
         sender_id = incoming_message['entry'][0]['messaging'][0]['sender']['id']
         pprint(incoming_message)
- 
-        if(incoming_message['entry'][0]['messaging'][0]['postback']['payload']):
+    
+        if(incoming_message['entry'][0]['messaging'][0]['message']['text']):
+            message = incoming_message['entry'][0]['messaging'][0]['message']['text']
+            post_msg(sender_id, message)
+        elif(incoming_message['entry'][0]['messaging'][0]['postback']['payload']):
             payload = incoming_message['entry'][0]['messaging'][0]['postback']['payload']
             payload_dict(sender_id, payload)
         else:
-            message = incoming_message['entry'][0]['messaging'][0]['message']['text']
-            post_msg(sender_id, message)
-            
+            post_msg(sender_id, "Nothing found.")  
         return HttpResponse()
     
