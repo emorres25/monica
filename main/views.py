@@ -12,6 +12,7 @@ from django.utils.decorators import method_decorator
 access_token = 'EAACZBvaFpA18BALGxtZAD1kaZAGI1y7FyFfsnv7KL6y6g2YY2xZBLQXmRZCYVBMiqIZCis3BOBe6wo6odDu6UJySDbgIW4wI9ZCn7Up22BRvMn1bz1gcSsLT9ySPPIFiCkQxdRWatsPD7ZCwl2MViyZBTgflGbzz3ATdpj8dRifhYGAZDZD'
 verify_token = '8510865767'
 pb_access_token = 'o.pcRGh00O0fKNVFVeOAQ4qo5CRt6qyYJh'
+zomato_key = '22b2050b2c779d35f5da049e8d414fcd'
 #url = 'http://api.wordnik.com:80/v4/word.json/tycoon/definitions?limit=200&includeRelated=true&useCanonical=false&includeTags=false&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5'
 def get_meaning(fbid, recieved_message):
     url = 'http://api.wordnik.com:80/v4/word.json/' + recieved_message.lower() + '/definitions?limit=200&includeRelated=true&useCanonical=false&includeTags=false&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5'
@@ -38,12 +39,28 @@ def menu(fbid):
     r = requests.post(url, headers={"Content-Type": "application/json"}, data=payload)
     pprint(r.json())
 
+def search_restaurant(fbid):
+    post_msg(fbid, "This is the start.")
+    incoming_message = json.loads(self.request.body.decode('utf-8'))
+    our_entry = incoming_message['entry'][0]['messaging'][0]
+    if 'message' in our_entry:
+        message = incoming_message['entry'][0]['messaging'][0]['message']['text']
+        url = 'https://developers.zomato.com/api/v2.1/search?q=%s' % message
+        r = requests.get(url, headers={"Accept":"application/json", "user-key":zomato_key})
+        pprint(r)
+    else:
+        pass
+
+
 def payload_dict(fbid, payload):
     if(payload=="get_started"):
         post_msg(fbid, "Hi there! Just stick with us for a while, we will be delivering soon!")
         menu(fbid)
     elif(payload=="by_location"):
         post_msg(fbid, "Send your location via the messenger!")
+    elif(payload=="search_restaurant"):
+        post_msg(fbid, "Great! Enter the name of the restaurant in the next line!")
+        search_restaurant(fbid)
     else:
         post_msg(fbid, "The payload isn't yet assigned!")
 
@@ -63,7 +80,7 @@ class monica(generic.View):
     def post(self, request, *args, **kwargs):
         incoming_message = json.loads(self.request.body.decode('utf-8'))
         sender_id = incoming_message['entry'][0]['messaging'][0]['sender']['id']
-        pprint(incoming_message)
+        #pprint(incoming_message)
 
         our_entry = incoming_message['entry'][0]['messaging'][0]
         #print our_entry
