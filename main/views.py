@@ -62,6 +62,7 @@ def payload_dict(fbid, payload):
 def process_message(fbid, message):
     msg_arr=message.split(' ')
     if(msg_arr[0]=='restaurant'):
+        post_msg(fbid, "restaurant command found!")
         restaurant_name = ' '.join(msg_arr[1:])
         search_restaurant(fbid, restaurant_name)
     else:
