@@ -55,7 +55,6 @@ def payload_dict(fbid, payload):
         post_msg(fbid, "Send your location via the messenger!")
     elif(payload=="search_restaurant"):
         post_msg(fbid, "Great! Enter the name of the restaurant in the next line, followed by 'restaurant.' Example- 'restaurant bikaner sweets.'")
-        search_restaurant(fbid)
     else:
         post_msg(fbid, "The payload isn't yet assigned!")
 
