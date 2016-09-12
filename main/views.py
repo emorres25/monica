@@ -42,6 +42,8 @@ def payload_dict(fbid, payload):
     if(payload=="get_started"):
         post_msg(fbid, "Hi there! Just stick with us for a while, we will be delivering soon!")
         menu(fbid)
+    elif(payload=="by_location"):
+        post_msg(fbid, "Send your location via the messenger!")
     else:
         post_msg(fbid, "The payload isn't yet assigned!")
 
