@@ -59,26 +59,11 @@ class monica(generic.View):
     def dispatch(self, request, *args, **kwargs):
         return generic.View.dispatch(self, request, *args, **kwargs)
  
-    '''
-    def post(self, request, *args, **kwargs):
-        incoming_message = json.loads(self.request.body.decode('utf-8'))
-        for entry in incoming_message['entry']:
-            for message in entry['messaging']: 
-                if 'message' in message: 
-                    try:  
-                        get_meaning(message['sender']['id'], message['message']['text'])
-                        #send_yo()
-                    except Exception as e:
-                        print e
-                        get_meaning(message['sender']['id'], 'Please send a valid text.')    
-                        #send_yo()
-        return HttpResponse()
-    '''
     
     def post(self, request, *args, **kwargs):
         incoming_message = json.loads(self.request.body.decode('utf-8'))
         sender_id = incoming_message['entry'][0]['messaging'][0]['sender']['id']
-        #pprint(incoming_message)
+        pprint(incoming_message)
 
         our_entry = incoming_message['entry'][0]['messaging'][0]
         #print our_entry
