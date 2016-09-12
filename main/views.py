@@ -42,7 +42,7 @@ def menu(fbid):
 def search_restaurant(fbid, restaurant_name):
     post_msg(fbid, "This is the start.")
     url = 'https://developers.zomato.com/api/v2.1/search?q=%s' % restaurant_name
-    headers = {"Accept": "application/json", "user-key": zomato_key}
+    headers = json.dumps({"Accept": "application/json", "user-key": zomato_key})
     r = requests.get(url,headers=headers)
     pprint(r)
     
