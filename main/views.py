@@ -39,10 +39,13 @@ def menu(fbid):
     r = requests.post(url, headers={"Content-Type": "application/json"}, data=payload)
     pprint(r.json())
 
-def search_restaurant(fbid):
+def search_restaurant(fbid, restaurant_name):
     post_msg(fbid, "This is the start.")
+    url = 'https://developers.zomato.com/api/v2.1/search?q=%s' % restaurant_name
+    headers = {"Accept": "application/json", "user-key": zomato_key}
+    r = requests.get(url,headers=headers)
+    pprint(r)
     
-
 
 def payload_dict(fbid, payload):
     if(payload=="get_started"):
@@ -55,6 +58,15 @@ def payload_dict(fbid, payload):
         search_restaurant(fbid)
     else:
         post_msg(fbid, "The payload isn't yet assigned!")
+
+
+def process_message(fbid, message):
+    msg_arr=message.split(' ')
+    if(msg_arr[0]=='restaurant'):
+        restaurant_name = ' '.join(msg_arr[1:])
+        search_restaurant(fbid, restaurant_name)
+    else:
+        menu(fbid)
 
 
 class monica(generic.View):
@@ -80,10 +92,14 @@ class monica(generic.View):
         if 'message' in our_entry:
             pprint(incoming_message)
             message = incoming_message['entry'][0]['messaging'][0]['message']['text']
+
+            process_message(fbid, message)
+            '''
             try:
                 post_msg(sender_id, message)
             except Exception as e:
                 print e
+            '''
         elif 'postback' in our_entry:
             payload = incoming_message['entry'][0]['messaging'][0]['postback']['payload']
             try:
