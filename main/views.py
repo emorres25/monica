@@ -86,6 +86,7 @@ class monica(generic.View):
         #print our_entry
         
         if 'message' in our_entry:
+            pprint(incoming_message)
             message = incoming_message['entry'][0]['messaging'][0]['message']['text']
             try:
                 post_msg(sender_id, message)
