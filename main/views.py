@@ -41,15 +41,7 @@ def menu(fbid):
 
 def search_restaurant(fbid):
     post_msg(fbid, "This is the start.")
-    incoming_message = json.loads(self.request.body.decode('utf-8'))
-    our_entry = incoming_message['entry'][0]['messaging'][0]
-    if 'message' in our_entry:
-        message = incoming_message['entry'][0]['messaging'][0]['message']['text']
-        url = 'https://developers.zomato.com/api/v2.1/search?q=%s' % message
-        r = requests.get(url, headers={"Accept":"application/json", "user-key":zomato_key})
-        pprint(r)
-    else:
-        pass
+    
 
 
 def payload_dict(fbid, payload):
@@ -59,7 +51,7 @@ def payload_dict(fbid, payload):
     elif(payload=="by_location"):
         post_msg(fbid, "Send your location via the messenger!")
     elif(payload=="search_restaurant"):
-        post_msg(fbid, "Great! Enter the name of the restaurant in the next line!")
+        post_msg(fbid, "Great! Enter the name of the restaurant in the next line, followed by 'restaurant.' Example- 'restaurant bikaner sweets.'")
         search_restaurant(fbid)
     else:
         post_msg(fbid, "The payload isn't yet assigned!")
