@@ -40,7 +40,7 @@ def menu(fbid):
     #pprint(r.json())
 
 def search_restaurant(fbid, restaurant_name):
-    post_msg(fbid, "This is the start.")
+    post_msg(fbid, "This is the start. restaurant name is %s"%s restaurant_name)
     url = 'https://developers.zomato.com/api/v2.1/search?q=%s' % restaurant_name
     headers = json.dumps({"Accept": "application/json", "user-key": zomato_key})
     r = requests.get(url,headers=headers)
@@ -62,7 +62,7 @@ def payload_dict(fbid, payload):
 def process_message(fbid, message):
     post_msg(fbid, "Starting processing your message.")
     msg_arr=message.split(' ')
-    post_msg(fbid, msg_arr)
+    #post_msg(fbid, msg_arr)
     if(msg_arr[0]=='restaurant'):
         post_msg(fbid, "restaurant command found!")
         restaurant_name = ' '.join(msg_arr[1:])
