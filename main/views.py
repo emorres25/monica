@@ -40,7 +40,7 @@ def menu(fbid):
     #pprint(r.json())
 
 def search_restaurant(fbid, restaurant_name):
-    post_msg(fbid, "This is the start. restaurant name is %s"%s restaurant_name)
+    post_msg(fbid, "This is the start. restaurant name is %s"% restaurant_name)
     url = 'https://developers.zomato.com/api/v2.1/search?q=%s' % restaurant_name
     headers = json.dumps({"Accept": "application/json", "user-key": zomato_key})
     r = requests.get(url,headers=headers)
@@ -86,14 +86,14 @@ class monica(generic.View):
     def post(self, request, *args, **kwargs):
         incoming_message = json.loads(self.request.body.decode('utf-8'))
         sender_id = incoming_message['entry'][0]['messaging'][0]['sender']['id']
-        pprint(incoming_message)
+        #pprint(incoming_message)
 
         our_entry = incoming_message['entry'][0]['messaging'][0]
         #print our_entry
         
         if 'message' in our_entry:
             #pprint(incoming_message)
-            message = incoming_message['entry'][0]['messaging'][0]['message']['text']
+            message = str(incoming_message['entry'][0]['messaging'][0]['message']['text'])
             process_message(sender_id, message)
             '''
             try:
