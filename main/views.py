@@ -93,6 +93,7 @@ class monica(generic.View):
         
         if 'message' in our_entry:
             #pprint(incoming_message)
+            print our_entry
             message = str(incoming_message['entry'][0]['messaging'][0]['message']['text'])
             process_message(sender_id, message)
             '''
