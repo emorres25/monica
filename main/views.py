@@ -37,14 +37,14 @@ def menu(fbid):
     url ='https://graph.facebook.com/v2.6/me/messages?access_token=%s' % access_token
     payload = json.dumps({"recipient":{"id":fbid},"message":{"attachment":{"type":"template","payload":{"template_type":"button","text":"Select from these available options:","buttons":[{"type":"postback","title":"Current Location","payload":"by_location"},{"type":"postback","title":"Search a location","payload":"search_location"},{"type":"postback","title":"Search a restaurant","payload":"search_restaurant"}]}}}})
     r = requests.post(url, headers={"Content-Type": "application/json"}, data=payload)
-    pprint(r.json())
+    #pprint(r.json())
 
 def search_restaurant(fbid, restaurant_name):
     post_msg(fbid, "This is the start.")
     url = 'https://developers.zomato.com/api/v2.1/search?q=%s' % restaurant_name
     headers = json.dumps({"Accept": "application/json", "user-key": zomato_key})
     r = requests.get(url,headers=headers)
-    pprint(r)
+    #pprint(r)
     
 
 def payload_dict(fbid, payload):
@@ -86,13 +86,13 @@ class monica(generic.View):
     def post(self, request, *args, **kwargs):
         incoming_message = json.loads(self.request.body.decode('utf-8'))
         sender_id = incoming_message['entry'][0]['messaging'][0]['sender']['id']
-        #pprint(incoming_message)
+        pprint(incoming_message)
 
         our_entry = incoming_message['entry'][0]['messaging'][0]
         #print our_entry
         
         if 'message' in our_entry:
-            pprint(incoming_message)
+            #pprint(incoming_message)
             message = incoming_message['entry'][0]['messaging'][0]['message']['text']
             post_msg(sender_id, "Sender id is working! %s" % sender_id)
             process_message(sender_id, message)
