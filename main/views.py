@@ -44,7 +44,7 @@ def search_restaurant(fbid, restaurant_name):
     url = 'https://developers.zomato.com/api/v2.1/search?q=%s' % restaurant_name
     headers = json.dumps({"Accept": "application/json", "user-key": zomato_key})
     r = requests.get(url,headers=headers)
-    #pprint(r)
+    print(r)
     
 
 def payload_dict(fbid, payload):
@@ -94,7 +94,6 @@ class monica(generic.View):
         if 'message' in our_entry:
             #pprint(incoming_message)
             message = incoming_message['entry'][0]['messaging'][0]['message']['text']
-            post_msg(sender_id, "Sender id is working! %s" % sender_id)
             process_message(sender_id, message)
             '''
             try:
