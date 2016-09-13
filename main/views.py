@@ -95,7 +95,7 @@ class monica(generic.View):
             pprint(incoming_message)
             message = incoming_message['entry'][0]['messaging'][0]['message']['text']
 
-            process_message(fbid, message)
+            process_message(sender_id, message)
             '''
             try:
                 post_msg(sender_id, message)
